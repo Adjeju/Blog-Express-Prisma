@@ -124,6 +124,7 @@ class PostController {
         authorId,
         published,
       };
+
       const totalCount = await prismaClient.post.count({
         where,
       });
@@ -154,6 +155,11 @@ class PostController {
           categories: true,
           tags: true,
           comments: true,
+          _count: {
+            select: {
+              likes: true,
+            },
+          },
         },
       });
 
@@ -161,9 +167,10 @@ class PostController {
         page,
         totalPages,
         totalCount,
-        data: posts.map((post) => ({
-          ...post,
-          author: exclude(post.author, ["password"]),
+        data: posts.map(({ _count, author, ...rest }) => ({
+          ...rest,
+          author: exclude(author, ["password"]),
+          likes: _count.likes,
         })),
       });
     } catch (error) {
@@ -191,9 +198,15 @@ class PostController {
           .json({ message: serverMessages.entityNotFound("Post") });
       }
 
+      const likes = await prismaClient.postLike.count({
+        where: {
+          postId: id,
+        },
+      });
+
       return res
         .status(200)
-        .json({ ...post, author: exclude(post.author, ["password"]) });
+        .json({ ...post, author: exclude(post.author, ["password"]), likes });
     } catch (error) {
       next(error);
     }

@@ -5,4 +5,5 @@ export const routes = {
   category: "/category",
   tag: "/tag",
   comment: "/comment",
+  postLike: "/postLike",
 };

@@ -17,8 +17,8 @@ export const verifyToken = (
   }
 
   try {
-    const user = jwt.verify(token, process.env.TOKEN_KEY!) as JwtPayload;
-    res.locals.user = user;
+    const { id } = jwt.verify(token, process.env.TOKEN_KEY!) as JwtPayload;
+    res.locals.userId = id;
     return next();
   } catch (error) {
     return res.status(401).json({ message: serverMessages.invalidToken });

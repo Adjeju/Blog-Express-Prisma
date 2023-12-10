@@ -6,6 +6,7 @@ import postRouter from "./post.routes";
 import categoryRouter from "./category.routes";
 import tagRouter from "./tag.routes";
 import commentRouter from "./comment.routes";
+import postLikeRouter from "./postLike.routes";
 
 const router = Router();
 
@@ -15,5 +16,6 @@ router.use(routes.post, postRouter);
 router.use(routes.category, categoryRouter);
 router.use(routes.tag, tagRouter);
 router.use(routes.comment, commentRouter);
+router.use(routes.postLike, postLikeRouter);
 
 export default router;

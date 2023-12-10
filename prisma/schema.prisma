@@ -11,16 +11,17 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  email     String    @unique
-  username  String    @unique
-  password  String
-  avatar    String?
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt()
-  posts     Post[]
-  comments  Comment[]
-  groups    Group[]
+  id         Int        @id @default(autoincrement())
+  email      String     @unique
+  username   String     @unique
+  password   String
+  avatar     String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt()
+  posts      Post[]
+  comments   Comment[]
+  groups     Group[]
+  likedPosts PostLike[]
 }
 
 model Post {
@@ -37,6 +38,16 @@ model Post {
   tags       Tag[]
   group      Group?     @relation(fields: [groupId], references: [id], onDelete: Cascade)
   groupId    Int?
+  likes      PostLike[]
+}
+
+model PostLike {
+  id        Int      @id @default(autoincrement())
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int
+  createdAt DateTime @default(now())
 }
 
 model Category {
