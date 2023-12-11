@@ -6,4 +6,5 @@ export const routes = {
   tag: "/tag",
   comment: "/comment",
   postLike: "/postLike",
+  group: "/group",
 };
