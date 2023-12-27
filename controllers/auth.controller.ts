@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "@prisma/client";
 import { prismaClient } from "../prisma";
 import { loginUserSchema, signUpUserSchema } from "../validations";
 import { serverMessages } from "../constants";
@@ -7,11 +6,7 @@ import { authService } from "../services";
 import { exclude } from "../utils";
 
 class AuthController {
-  async login(
-    req: Request<any, any, Pick<User, "email" | "password">>,
-    res: Response,
-    next: NextFunction
-  ) {
+  async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = loginUserSchema.parse(req.body);
 

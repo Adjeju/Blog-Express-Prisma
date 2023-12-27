@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { groupRoleController } from "../controllers/groupRole.controller";
+import { groupRoleController } from "../controllers";
 
 const groupRoleRouter = Router();
 

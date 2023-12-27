@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { postLikeController } from "../controllers/postLike.controller";
 import { verifyToken } from "../middlewares";
+import { postLikeController } from "../controllers";
 
 const postLikeRouter = Router();
 

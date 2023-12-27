@@ -1,4 +1,4 @@
-import { Category, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { categoryService } from "../services";
 import { prismaClient } from "../prisma";
@@ -77,11 +77,7 @@ class CategoryController {
     }
   }
 
-  async create(
-    req: Request<any, any, Pick<Category, "name">>,
-    res: Response,
-    next: NextFunction
-  ) {
+  async create(req: Request, res: Response, next: NextFunction) {
     try {
       const body = categorySchema.parse(req.body);
       const category = await categoryService.create(body);
@@ -91,11 +87,7 @@ class CategoryController {
     }
   }
 
-  async update(
-    req: Request<any, any, Pick<Category, "name">>,
-    res: Response,
-    next: NextFunction
-  ) {
+  async update(req: Request, res: Response, next: NextFunction) {
     try {
       const { name } = categorySchema.parse(req.body);
 

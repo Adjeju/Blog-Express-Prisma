@@ -1,8 +1,5 @@
 import { prismaClient } from "../prisma";
-import {
-  CreateCommentBody,
-  UpdateCommentBody,
-} from "../validations/comment.schema";
+import { CreateCommentBody, UpdateCommentBody } from "../validations";
 
 class CommentService {
   async create(data: CreateCommentBody) {

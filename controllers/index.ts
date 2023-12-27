@@ -6,3 +6,5 @@ export * from "./comment.controller";
 export * from "./group.controller";
 export * from "./groupRequest.controller";
 export * from "./groupMember.controller";
+export * from "./groupRole.controller";
+export * from "./postLike.controller";
