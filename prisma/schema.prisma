@@ -1,6 +1,14 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+generator docs {
+  provider = "node node_modules/prisma-docs-generator"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,17 +19,19 @@ datasource db {
 }
 
 model User {
-  id         Int        @id @default(autoincrement())
-  email      String     @unique
-  username   String     @unique
+  id         Int            @id @default(autoincrement())
+  email      String         @unique
+  username   String         @unique
   password   String
   avatar     String?
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt()
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt()
   posts      Post[]
   comments   Comment[]
   groups     Group[]
   likedPosts PostLike[]
+  member     GroupMember[]
+  requests   GroupRequest[]
 }
 
 model Post {
@@ -78,12 +88,41 @@ model Comment {
 }
 
 model Group {
-  id          Int      @id @default(autoincrement())
+  id          Int            @id @default(autoincrement())
   name        String
   description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt()
-  owner       User     @relation(fields: [ownerId], references: [id])
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt()
+  owner       User           @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   ownerId     Int
   posts       Post[]
+  requests    GroupRequest[]
+  members     GroupMember[]
+}
+
+model GroupRequest {
+  id      Int          @id @default(autoincrement())
+  status  String       @default("pending")
+  group   Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId Int          @unique
+  user    User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  Int          @unique
+  member  GroupMember?
+}
+
+model GroupMember {
+  id             Int          @id @default(autoincrement())
+  group          Group        @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  groupId        Int
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         Int
+  roles          GroupRole[]
+  request        GroupRequest @relation(fields: [groupRequestId], references: [id], onDelete: Cascade)
+  groupRequestId Int          @unique
+}
+
+model GroupRole {
+  id      Int           @id @default(autoincrement())
+  name    String
+  members GroupMember[]
 }

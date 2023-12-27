@@ -44,17 +44,7 @@ class AuthController {
     }
   }
 
-  async signup(
-    req: Request<
-      any,
-      any,
-      Pick<User, "email" | "password" | "username"> & {
-        confirmPassword: string;
-      }
-    >,
-    res: Response,
-    next: NextFunction
-  ) {
+  async signup(req: Request, res: Response, next: NextFunction) {
     try {
       const { password, email, username } = signUpUserSchema.parse(req.body);
       const avatar = req.file?.path;

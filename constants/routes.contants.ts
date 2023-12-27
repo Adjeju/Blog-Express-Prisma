@@ -7,4 +7,7 @@ export const routes = {
   comment: "/comment",
   postLike: "/postLike",
   group: "/group",
+  groupRequest: "/groupRequest",
+  groupRole: "/groupRole",
+  groupMember: "/groupMember",
 };

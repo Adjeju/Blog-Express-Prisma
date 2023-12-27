@@ -5,3 +5,6 @@ export * from "./user.schema";
 export * from "./post.schema";
 export * from "./comment.schema";
 export * from "./group.schema";
+export * from "./groupRequest.schema";
+export * from "./groupRole.shema";
+export * from "./groupMember.schema";

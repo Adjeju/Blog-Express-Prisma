@@ -4,3 +4,6 @@ export * from "./category.service";
 export * from "./tag.service";
 export * from "./comment.service";
 export * from "./group.service";
+export * from "./groupRequest.service";
+export * from "./groupRole.service";
+export * from "./groupMember.service";

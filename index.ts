@@ -12,6 +12,7 @@ const port = process.env.PORT || 4000;
 app.use(bodyParser.json());
 app.use(router);
 app.use(errorHandler);
+//TODO: add morgan and winston
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello world!!!");

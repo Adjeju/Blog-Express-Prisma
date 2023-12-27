@@ -1,0 +1,136 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table User {
+  id Int [pk, increment]
+  email String [unique, not null]
+  username String [unique, not null]
+  password String [not null]
+  avatar String
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  posts Post [not null]
+  comments Comment [not null]
+  groups Group [not null]
+  likedPosts PostLike [not null]
+  member GroupMember [not null]
+  requests GroupRequest [not null]
+}
+
+Table Post {
+  id Int [pk, increment]
+  title String [not null]
+  content String [not null]
+  published Boolean [not null, default: false]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  author User [not null]
+  authorId Int [not null]
+  comments Comment [not null]
+  categories Category [not null]
+  tags Tag [not null]
+  group Group
+  groupId Int
+  likes PostLike [not null]
+}
+
+Table PostLike {
+  id Int [pk, increment]
+  post Post [not null]
+  postId Int [not null]
+  user User [not null]
+  userId Int [not null]
+  createdAt DateTime [default: `now()`, not null]
+}
+
+Table Category {
+  id Int [pk, increment]
+  name String [not null]
+  posts Post [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Tag {
+  id Int [pk, increment]
+  name String [not null]
+  posts Post [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+}
+
+Table Comment {
+  id Int [pk, increment]
+  content String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  post Post [not null]
+  postId Int [not null]
+  author User [not null]
+  authorId Int [not null]
+}
+
+Table Group {
+  id Int [pk, increment]
+  name String [not null]
+  description String [not null]
+  createdAt DateTime [default: `now()`, not null]
+  updatedAt DateTime [not null]
+  owner User [not null]
+  ownerId Int [not null]
+  posts Post [not null]
+  requests GroupRequest [not null]
+  members GroupMember [not null]
+}
+
+Table GroupRequest {
+  id Int [pk, increment]
+  status String [not null, default: 'pending']
+  group Group [not null]
+  groupId Int [unique, not null]
+  user User [not null]
+  userId Int [unique, not null]
+  member GroupMember
+}
+
+Table GroupMember {
+  id Int [pk, increment]
+  group Group [not null]
+  groupId Int [not null]
+  user User [not null]
+  userId Int [not null]
+  roles GroupRole [not null]
+  request GroupRequest [not null]
+  groupRequestId Int [unique, not null]
+}
+
+Table GroupRole {
+  id Int [pk, increment]
+  name String [not null]
+  members GroupMember [not null]
+}
+
+Ref: Post.authorId > User.id [delete: Cascade]
+
+Ref: Post.groupId > Group.id [delete: Cascade]
+
+Ref: PostLike.postId > Post.id [delete: Cascade]
+
+Ref: PostLike.userId > User.id [delete: Cascade]
+
+Ref: Comment.postId > Post.id [delete: Cascade]
+
+Ref: Comment.authorId > User.id [delete: Cascade]
+
+Ref: Group.ownerId > User.id [delete: Cascade]
+
+Ref: GroupRequest.groupId > Group.id [delete: Cascade]
+
+Ref: GroupRequest.userId > User.id [delete: Cascade]
+
+Ref: GroupMember.groupId > Group.id [delete: Cascade]
+
+Ref: GroupMember.userId > User.id [delete: Cascade]
+
+Ref: GroupMember.groupRequestId - GroupRequest.id [delete: Cascade]
